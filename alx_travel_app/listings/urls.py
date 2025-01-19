@@ -1,8 +1,14 @@
-from django.urls import path
-from .views import ListingListCreateView, BookingListCreateView, ReviewListCreateView
+from django.urls import path, include
+from .views import ListingViewSet, BookingViewSet, ReviewViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'listings', ListingViewSet, basename='listing')
+router.register(r'bookings', BookingViewSet, basename='booking')
+router.register(r'reviews', ReviewViewSet, basename='review')
+
+urlpatterns = router.urls
 
 urlpatterns = [
-    path('listings/', ListingListCreateView.as_view(), name='listing-list-create'),
-    path('bookings/', BookingListCreateView.as_view(), name='booking-list-create'),
-    path('review/', ReviewListCreateView.as_view(), name='review-list-create'),
+    path('', include(router.urls)),
 ]
